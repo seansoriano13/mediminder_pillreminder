@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "250703652175",
+    "project_id": "medi-minder-fb28c",
+    "storage_bucket": "medi-minder-fb28c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250703652175:android:f7472cb915438c4a1fd13a",
+        "android_client_info": {
+          "package_name": "com.example.mediminder_pillreminder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnpQSmQnP1MM37NyTVVvz8EJSTJetlxFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
