@@ -1,0 +1,14 @@
+# Podfile for MediMinder (Objective-C)
+# Place this file in: MediMinderObjC/
+# Run: pod install
+
+platform :ios, '15.0'
+
+target 'MediMinder' do
+  use_frameworks!
+
+  pod 'FirebaseCore'
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+
+end
