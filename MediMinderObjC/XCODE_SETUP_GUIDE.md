@@ -2,7 +2,7 @@
 ## Mac Lab — Complete Step-by-Step Instructions
 
 > **Estimated time: ~2.5–3 hours total**
-> Code is already written. You just need to: create the Xcode project, build the UI in Interface Builder, wire outlets, and install dependencies.
+> Code is already written. You just need to: create the Xcode project, add Firebase via Swift Package Manager (no password/sudo needed), build the UI in Interface Builder, and wire outlets.
 
 ---
 
@@ -55,23 +55,38 @@ When the dialog appears, check **"Copy items if needed"**.
 
 ---
 
-## PHASE 2 — Install Firebase via CocoaPods (10 min)
+## PHASE 2 — Add Firebase via Swift Package Manager (10 min)
 
-### Step 6: Run CocoaPods
-Open Terminal, navigate to `MediMinderObjC/`:
-```bash
-cd path/to/mediminder_pillreminder/MediMinderObjC
-pod install
-```
-If CocoaPods isn't installed:
-```bash
-sudo gem install cocoapods
-pod install
-```
+> **No Terminal. No sudo. No password. All done inside Xcode.**
+> This replaces CocoaPods entirely. SPM is built into Xcode.
 
-### Step 7: Open the .xcworkspace (NOT .xcodeproj)
-After pod install, Xcode creates a `.xcworkspace` file.
-**Always open `MediMinder.xcworkspace`** from now on, not `.xcodeproj`.
+### Step 6: Add Firebase SDK packages
+
+1. In Xcode, go to **File → Add Package Dependencies...**
+2. In the search bar at the top-right, paste this URL:
+   ```
+   https://github.com/firebase/firebase-ios-sdk
+   ```
+3. Press **Enter** — Xcode fetches the package (needs internet, give it ~30 sec)
+4. Under **"Dependency Rule"** leave it as: **Up to Next Major Version**
+5. Click **"Add Package"**
+6. A second dialog appears asking which libraries to add. Check **these three only:**
+   - ✅ `FirebaseAuth`
+   - ✅ `FirebaseCore`
+   - ✅ `FirebaseFirestore`
+   - ❌ (leave everything else unchecked)
+7. Click **"Add Package"** — Xcode downloads and links them automatically
+
+> ⚠️ FirebaseFirestore takes 2–5 minutes to download. This is normal.
+
+### Step 7: Verify the packages are linked
+1. Click your **project** (blue icon) in the left panel
+2. Click your **Target** → **General** tab
+3. Scroll to **"Frameworks, Libraries, and Embedded Content"**
+4. You should see `FirebaseAuth`, `FirebaseCore`, `FirebaseFirestore` listed
+5. If any are missing, click **+** and search for them manually
+
+> 💡 Keep using the `.xcodeproj` file — SPM doesn't create a `.xcworkspace` like CocoaPods does.
 
 ---
 
@@ -298,9 +313,10 @@ Firebase Auth may prompt for it. Add if build warns.
 | `Unrecognized selector sent to instance` | An IBAction is connected in storyboard but spelled wrong. Disconnect & reconnect. |
 | `Thread 1: EXC_BAD_ACCESS` | An IBOutlet is declared but not connected in IB. Check all outlets. |
 | `Could not instantiate class named ...` | Custom class not set in Identity Inspector for that scene. |
-| `Firebase: No GoogleService-Info.plist found` | Make sure the file is added to the Xcode target (check the file inspector). |
-| `pod: command not found` | Run `sudo gem install cocoapods` first. |
-| Build fails with Firebase headers not found | Open `.xcworkspace` not `.xcodeproj` |
+| `Firebase: No GoogleService-Info.plist found` | Make sure the file is added to the Xcode target (check the file inspector on the right, ensure "Target Membership" is checked). |
+| Firebase headers not found / `'FirebaseCore/FirebaseCore.h' not found` | SPM packages not linked. Go to Target → General → Frameworks and add them manually. |
+| SPM stuck "Resolving packages..." | Mac lab may have slow internet. Wait 5 minutes. If it still hangs, go to File → Packages → Reset Package Caches. |
+| Build error: `No such module 'Firebase'` | In Objective-C you don't `import` modules — the `#import <FirebaseCore/FirebaseCore.h>` syntax is correct. Make sure SPM packages are added. |
 
 ---
 
@@ -308,7 +324,7 @@ Firebase Auth may prompt for it. Add if build warns.
 
 ```
 MediMinderObjC/
-├── Podfile                          ← Run `pod install` here
+├── XCODE_SETUP_GUIDE.md             ← This file
 └── MediMinder/
     ├── main.m                       ← App entry point
     ├── AppDelegate.h/.m             ← Firebase init + initial screen routing
@@ -323,6 +339,9 @@ MediMinderObjC/
     ├── AddMedicineViewController.h/.m ← Add / Edit medicine form
     └── ProfileViewController.h/.m  ← User profile + sign out
 ```
+
+> Firebase is installed via **Swift Package Manager** (built into Xcode).
+> No CocoaPods, no Terminal, no sudo, no password required.
 
 > [!NOTE]
 > You do NOT write the storyboard as code. Interface Builder generates the XML automatically as you drag components. Your only job is to drag, set identifiers, and wire connections.
