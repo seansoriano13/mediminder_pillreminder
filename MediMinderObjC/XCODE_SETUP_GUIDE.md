@@ -290,11 +290,12 @@ The root view controller of Tab 2's Navigation Controller.
 ## PHASE 4 — Final Steps (10 min)
 
 ### Step 8: Set bundle identifier
-In Xcode → Target → General → Bundle Identifier:
+In Xcode → Target → General → Bundle Identifier, set it to **exactly**:
 ```
-com.student.mediminder
+com.example.mediminderPillreminder
 ```
-This must match what you used in Firebase Console when adding the iOS app.
+> ⚠️ This MUST match the `BUNDLE_ID` inside `GoogleService-Info.plist` exactly.
+> If they don't match, Firebase will crash on launch with "No GoogleService-Info.plist found".
 
 ### Step 9: Check Info.plist has NSFaceIDUsageDescription (if needed)
 Firebase Auth may prompt for it. Add if build warns.
